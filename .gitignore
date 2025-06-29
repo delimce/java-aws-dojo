@@ -31,4 +31,9 @@ spring-boot-loader.properties
 target/
 
 # vscode exclude files
-.vscode/
+.vscode
+
+
+# localstack exclude files
+localstack-data/
+localstack-tmp/

@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  localstack:
+    container_name: aws-localstack
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"  # LocalStack edge port
+      - "4510-4559:4510-4559"  # external services port range
+    environment:
+      - SERVICES=sqs,sns,ec2,rds,s3,events
+      - DEBUG=1
+      - DATA_DIR=/var/lib/localstack/data
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_DEFAULT_REGION=eu-west-1
+      - HOSTNAME_EXTERNAL=localstack
+      - TMPDIR=/tmp/localstack
+    volumes:
+      - "./localstack-data:/var/lib/localstack"
+      - "./localstack-tmp:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - dojo-network
+
+  # PostgreSQL container to simulate RDS
+  postgres:
+    container_name: postgres-db
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=dojo
+      - POSTGRES_PASSWORD=dojo123
+      - POSTGRES_DB=dojodb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - dojo-network
+
+volumes:
+  postgres-data:
+
+networks:
+  dojo-network:
+    driver: bridge
