@@ -1,0 +1,42 @@
+# Dev environment configuration
+spring:
+  application:
+    name: dojo-dev
+  config:
+    activate:
+      on-profile: dev
+  
+  # Datasource configuration using environment variables
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/dojo_dev}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  
+  # JPA/Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        '[format_sql]': true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  
+  # AWS Configuration
+  cloud:
+    aws:
+      region:
+        static: ${AWS_REGION:us-east-1}
+      credentials:
+        access-key: ${AWS_ACCESS_KEY:}
+        secret-key: ${AWS_SECRET_KEY:}
+
+# AWS configuration is now simplified
+# No service-specific configurations
+
+# Logging
+logging:
+  level:
+    '[com.delimce.aws.dojo]': DEBUG
+    '[io.awspring.cloud]': DEBUG

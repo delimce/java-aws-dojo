@@ -1,0 +1,41 @@
+# Production environment configuration
+spring:
+  application:
+    name: dojo-prod
+  config:
+    activate:
+      on-profile: prod
+  
+  # Datasource configuration using environment variables
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  
+  # JPA/Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  
+  # AWS Configuration
+  cloud:
+    aws:
+      region:
+        static: ${AWS_REGION}
+      credentials:
+        access-key: ${AWS_ACCESS_KEY}
+        secret-key: ${AWS_SECRET_KEY}
+
+# AWS configuration is now simplified
+# No service-specific configurations
+
+# Logging
+logging:
+  level:
+    '[com.delimce.aws.dojo]': INFO
+    '[io.awspring.cloud]': INFO
