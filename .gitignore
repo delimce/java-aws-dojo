@@ -41,3 +41,6 @@ localstack-tmp/
 # terraform exclude files
 .terraform/
 .terraform.lock.hcl
+# tfstate files
+*.tfstate
+*.tfstate.*

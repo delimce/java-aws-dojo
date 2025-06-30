@@ -140,5 +140,5 @@ terraform-destroy:
 	@echo "Terraform destroy complete."
 
 # Init the environment - prepare, start, and setup in one command
-init: prepare start aws-configure terraform-apply
+init: prepare start aws-configure
 	@echo "Environment initialization complete!"

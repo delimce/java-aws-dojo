@@ -12,13 +12,14 @@ This project uses LocalStack to simulate AWS services locally for development an
 - Make
 - Terraform
 - OpenJdk >= 17
+- Maven
 
 ### Using the Makefile
 
 The Makefile provides commands to manage your local development environment:
 
 ```bash
-# Initialize the entire environment (prepare directories, start containers, configure AWS CLI, setup resources)
+# Initialize the entire environment (prepare directories, start containers, configure AWS CLI, NO infra deployed)
 make init
 
 # View all available commands
