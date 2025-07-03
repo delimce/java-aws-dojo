@@ -10,27 +10,36 @@ This project uses LocalStack to simulate AWS services locally for development an
 - Docker and Docker Compose
 - AWS CLI
 - Make
+- Terraform
+- OpenJdk >= 17
+- Maven
 
 ### Using the Makefile
 
 The Makefile provides commands to manage your local development environment:
 
 ```bash
-# Initialize the entire environment (prepare directories, start containers, configure AWS CLI, setup resources)
+# Initialize the entire environment (prepare directories, start containers, configure AWS CLI, NO infra deployed)
 make init
 
 # View all available commands
 make help
 
 # Individual commands
-make prepare     # Create necessary directories
-make start       # Start all containers
-make setup       # Setup AWS resources in LocalStack
-make stop        # Stop all containers
-make clean       # Remove containers, volumes, and directories
-make status      # Check container status
-make health-check # Verify LocalStack health
-make logs        # View container logs
+make prepare             # Create necessary directories
+make start               # Start all containers
+make setup               # Setup AWS resources in LocalStack
+make stop                # Stop all containers
+make clean               # Remove containers, volumes, and directories
+make status              # Check container status
+make health-check        # Verify LocalStack health
+make terraform-init      # Initialize Terraform configuration
+make terraform-plan      # Preview Terraform changes
+make terraform-apply     # Apply Terraform changes
+make terraform-destroy   # Destroy Terraform-managed infrastructure
+```
+
+### Available Services
 ```
 
 ### Available Services

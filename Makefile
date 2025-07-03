@@ -1,6 +1,6 @@
 # AWS LocalStack Development Environment Makefile
 
-.PHONY: help prepare start stop restart setup clean status health-check logs aws-configure
+.PHONY: help prepare start stop restart setup clean status health-check logs aws-configure terraform-init terraform-plan terraform-apply terraform-destroy
 
 # Default target when running just 'make'
 help:
@@ -17,6 +17,10 @@ help:
 	@echo "  make health-check   - Check LocalStack health status"
 	@echo "  make logs           - Show logs from all containers"
 	@echo "  make aws-configure  - Configure AWS CLI for LocalStack"
+	@echo "  make terraform-init - Initialize Terraform in the devops directory"
+	@echo "  make terraform-plan - Run Terraform plan against LocalStack"
+	@echo "  make terraform-apply - Apply Terraform configuration to LocalStack"
+	@echo "  make terraform-destroy - Destroy resources created by Terraform"
 
 # Create the necessary directories for LocalStack
 prepare:
@@ -110,6 +114,31 @@ aws-configure:
 	@aws configure set output json
 	@echo "AWS CLI configured for LocalStack."
 
+# Terraform operations
+terraform-init:
+	@echo "Initializing Terraform..."
+	@cd devops && terraform init
+	@echo "Terraform initialized."
+
+terraform-plan:
+	@echo "Running Terraform plan against LocalStack..."
+	@cd devops && terraform plan -var="environment=dev" -var="localstack_endpoint=http://localhost:4566"
+	@echo "Terraform plan complete."
+
+terraform-apply:
+	@echo "Applying Terraform configuration to LocalStack..."
+	@cd devops && terraform apply -var="environment=dev" -var="localstack_endpoint=http://localhost:4566" -auto-approve
+	@echo "Terraform apply complete."
+	@echo "To verify resources, you can use AWS CLI with the LocalStack endpoint:"
+	@echo "aws --endpoint-url=http://localhost:4566 <service> <command>"
+	@echo "For example, to list S3 buckets: aws --endpoint-url=http://localhost:4566 s3 ls"
+	
+
+terraform-destroy:
+	@echo "Destroying resources created by Terraform..."
+	@cd devops && terraform destroy -var="environment=dev" -var="localstack_endpoint=http://localhost:4566" -auto-approve
+	@echo "Terraform destroy complete."
+
 # Init the environment - prepare, start, and setup in one command
-init: prepare start aws-configure setup
+init: prepare start aws-configure
 	@echo "Environment initialization complete!"

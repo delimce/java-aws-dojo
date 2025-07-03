@@ -37,3 +37,10 @@ target/
 # localstack exclude files
 localstack-data/
 localstack-tmp/
+
+# terraform exclude files
+.terraform/
+.terraform.lock.hcl
+# tfstate files
+*.tfstate
+*.tfstate.*
