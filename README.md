@@ -61,3 +61,84 @@ When working with the LocalStack environment:
 - Secret Key: test
 
 For more details, check the `docker-compose.yml` and `Makefile`.
+```
+## File structure
+
+```
+src/main/java/
+├── domain
+│   ├── model
+│   ├── service
+│   ├── event
+│   └── port
+├── application
+│   ├── service
+│   └── port
+│       ├── in
+│       └── out
+└── infrastructure
+    ├── in
+    │   ├── controller
+    │   │   ├── dto
+    │   │   └── mapper
+    │   └── listener
+    ├── out
+    │   ├── repository
+    │   │   ├── entity
+    │   │   └── mapper
+    │   ├── notification
+    │   └── client
+    └── configuration
+
+  ```
+
+ This structure is lightweight but follows the hexagonal architecture principles and is extensible.
+
+ Let me know if you need any adjustments.Based</div>
+          </details>
+
+ on the **Hexagonal Architecture**, here's a lightweight, extensible file structure for your application:
+
+### Simplified File Structure
+```bash
+src/main/java/
+├── domain/                       # Pure business logic
+│   ├── model/                    # Entities & Value Objects
+│   │   └── Offer.java            # Domain entity with business rules
+│   ├── service/                  # Domain services
+│   │   └── PricingService.java   # Business logic (e.g., price calculations)
+│   └── port/                    # Output ports (interfaces)
+│       └── OfferRepository.java  # e.g., interface for persistence
+│
+├── application/                  # Use cases & orchestration
+│   ├── service/                 
+│   │   └── OfferService.java     # Use case implementation (e.g., searchOffers)
+│   └── port/
+│       ├── in/                   # Input ports
+│       │   └── SearchUseCase.java
+│       └── out/                  # Output ports
+│           └── CachePort.java
+│
+└── infrastructure/               # Adapters & technical implementation
+    ├── in/                       # Primary adapters
+    │   ├── controller/
+    │   │   ├── OfferController.java     # REST endpoint
+    │   │   ├── dto/                     # Request/Response objects
+    │   │   │   ├── SearchRequest.java
+    │   │   │   └── OfferResponse.java
+    │   │   └── mapper/
+    │   │       └── OfferControllerMapper.java  # DTO ↔ Domain mapper
+    │   └── listener/              # e.g., Kafka/RabbitMQ listeners
+    │
+    └── out/                      # Secondary adapters
+        ├── repository/
+        │   ├── jpa/              # Database implementation
+        │   │   ├── OfferJpaRepository.java
+        │   │   └── mapper/
+        │   │       └── OfferEntityMapper.java  # Domain ↔ Entity mapper
+        │   └── memory/           # Alternative implementation (e.g., for tests)
+        │       └── InMemoryOfferRepository.java
+        ├── client/               # External APIs
+        │   └── FlightProviderClient.java 
+        └── cache/                # e.g., Redis adapter
+            └── RedisCacheAdapter.java

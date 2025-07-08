@@ -30,12 +30,18 @@ spring:
       credentials:
         access-key: ${AWS_ACCESS_KEY}
         secret-key: ${AWS_SECRET_KEY}
+      # S3 configuration
+      s3:
+        path-style-access-enabled: false
 
-# AWS configuration is now simplified
-# No service-specific configurations
-
+# Custom app properties for S3
+app:
+  s3:
+    bucket-name: ${AWS_S3_BUCKET_NAME}
+    
 # Logging
 logging:
   level:
     '[com.delimce.aws.dojo]': INFO
     '[io.awspring.cloud]': INFO
+    '[software.amazon.awssdk.services.s3]': INFO
