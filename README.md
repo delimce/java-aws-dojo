@@ -64,39 +64,36 @@ For more details, check the `docker-compose.yml` and `Makefile`.
 ```
 ## File structure
 
-```
-src/main/java/
-├── domain
-│   ├── model
-│   ├── service
-│   ├── event
-│   └── port
-├── application
-│   ├── service
-│   └── port
-│       ├── in
-│       └── out
-└── infrastructure
-    ├── in
-    │   ├── controller
-    │   │   ├── dto
-    │   │   └── mapper
-    │   └── listener
-    ├── out
-    │   ├── repository
-    │   │   ├── entity
-    │   │   └── mapper
-    │   ├── notification
-    │   └── client
-    └── configuration
-
-  ```
-
  This structure is lightweight but follows the hexagonal architecture principles and is extensible.
 
- Let me know if you need any adjustments.Based</div>
-          </details>
+```
+src/main/java/
+├── configuration/                # Application-wide configuration classes
+│   └── SecurityConfiguration.java
+├── domain/
+│   ├── model/
+│   ├── service/
+│   ├── event/
+│   └── port/
+├── application/
+│   ├── service/
+│   └── port/
+│       ├── in/
+│       └── out/
+└── infrastructure/
+    ├── in/
+    │   ├── controller/
+    │   │   ├── dto/
+    │   │   └── mapper/
+    │   └── listener/
+    ├── out/
+    │   ├── repository/
+    │   │   ├── entity/
+    │   │   └── mapper/
+    │   ├── notification/
+    │   └── client/
 
+  ```
  on the **Hexagonal Architecture**, here's a lightweight, extensible file structure for your application:
 
 ### Simplified File Structure
