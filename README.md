@@ -11,7 +11,7 @@ This project uses LocalStack to simulate AWS services locally for development an
 - AWS CLI
 - Make
 - Terraform
-- OpenJdk >= 17
+- OpenJdk >= 21
 - Maven
 
 ### Using the Makefile
@@ -61,3 +61,84 @@ When working with the LocalStack environment:
 - Secret Key: test
 
 For more details, check the `docker-compose.yml` and `Makefile`.
+```
+## File structure
+
+ This structure is lightweight but follows the hexagonal architecture principles and is extensible.
+
+```
+src/main/java/
+├── configuration/                # Application-wide configuration classes
+│   └── SecurityConfiguration.java
+├── domain/
+│   ├── model/
+│   ├── service/
+│   ├── event/
+│   └── port/
+├── application/
+│   ├── service/
+│   └── port/
+│       ├── in/
+│       └── out/
+└── infrastructure/
+    ├── in/
+    │   ├── controller/
+    │   │   ├── dto/
+    │   │   └── mapper/
+    │   └── listener/
+    ├── out/
+    │   ├── repository/
+    │   │   ├── entity/
+    │   │   └── mapper/
+    │   ├── notification/
+    │   └── client/
+
+  ```
+ on the **Hexagonal Architecture**, here's a lightweight, extensible file structure for your application:
+
+### Simplified File Structure
+```bash
+src/main/java/
+├── domain/                       # Pure business logic
+│   ├── model/                    # Entities & Value Objects
+│   │   └── Offer.java            # Domain entity with business rules
+│   ├── service/                  # Domain services
+│   │   └── PricingService.java   # Business logic (e.g., price calculations)
+│   └── port/                     # Output ports (interfaces)
+│       └── OfferRepository.java  # e.g., interface for persistence
+│
+├── application/                  # Use cases & orchestration
+│   ├── service/                 
+│   │   └── OfferService.java     # Use case implementation (e.g., searchOffers)
+│   └── port/
+│       ├── in/                   # Input ports
+│       │   └── SearchUseCase.java
+│       └── out/                  # Output ports
+│           └── CachePort.java
+│
+└── infrastructure/               # Adapters & technical implementation
+    ├── in/                       # Primary adapters
+    │   ├── controller/
+    │   │   ├── OfferController.java     # REST endpoint
+    │   │   ├── dto/                     # Request/Response objects
+    │   │   │   ├── SearchRequest.java
+    │   │   │   └── OfferResponse.java
+    │   │   └── mapper/
+    │   │       └── OfferControllerMapper.java  # DTO ↔ Domain mapper
+    │   ├── command/                   # Command handlers (e.g., CQRS commands)
+    │   │   └── CreateOfferCommandHandler.java
+    │   └── listener/              # e.g., Kafka/RabbitMQ listeners
+    │       └── OfferEventListener.java
+    │
+    └── out/                      # Secondary adapters
+        ├── repository/
+        │   ├── jpa/              # Database implementation
+        │   │   ├── OfferJpaRepository.java
+        │   │   └── mapper/
+        │   │       └── OfferEntityMapper.java  # Domain ↔ Entity mapper
+        │   └── memory/           # Alternative implementation (e.g., for tests)
+        │       └── InMemoryOfferRepository.java
+        ├── client/               # External APIs
+        │   └── FlightProviderClient.java 
+        └── cache/                # e.g., Redis adapter
+            └── RedisCacheAdapter.java

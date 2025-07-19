@@ -8,6 +8,7 @@ help:
 	@echo ""
 	@echo "Available commands:"
 	@echo "  make prepare        - Create necessary directories for LocalStack"
+	@echo "  make maven          - Install Maven Wrapper"
 	@echo "  make start          - Start all services defined in docker-compose.yml"
 	@echo "  make stop           - Stop all running containers"
 	@echo "  make restart        - Restart all services"
@@ -47,6 +48,13 @@ stop:
 
 # Restart all services
 restart: stop start
+
+# Install Maven Wrapper from CLI.
+maven:
+	@echo "Installing Maven Wrapper..."
+	@mvn wrapper:wrapper
+	@echo "Maven Wrapper installed."
+
 
 # Setup AWS resources in LocalStack
 setup:
@@ -108,7 +116,12 @@ logs:
 # Configure AWS CLI for LocalStack
 aws-configure:
 	@echo "Configuring AWS CLI for LocalStack..."
-	@aws configure set aws_access_key_id test
+	@aws configure set aws_access_key_id test		<!-- Spring Web for REST API -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+	</dependencies>
 	@aws configure set aws_secret_access_key test
 	@aws configure set region eu-west-1
 	@aws configure set output json

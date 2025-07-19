@@ -1,4 +1,4 @@
-package com.delimce.aws.dojo.config;
+package com.delimce.aws.dojo.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

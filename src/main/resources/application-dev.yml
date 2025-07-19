@@ -32,12 +32,19 @@ spring:
         access-key: ${AWS_ACCESS_KEY:test}
         secret-key: ${AWS_SECRET_KEY:test}
       endpoint: ${AWS_ENDPOINT_URI:http://localhost:4566}
+      # S3 configuration
+      s3:
+        endpoint: ${AWS_S3_ENDPOINT_URI:http://localhost:4566}
+        path-style-access-enabled: true
 
-# AWS configuration is now simplified
-# No service-specific configurations
-
+# Custom app properties for S3
+app:
+  s3:
+    bucket-name: ${AWS_S3_BUCKET_NAME:dojo-bucket}
+    
 # Logging
 logging:
   level:
     '[com.delimce.aws.dojo]': DEBUG
     '[io.awspring.cloud]': DEBUG
+    '[software.amazon.awssdk.services.s3]': DEBUG
