@@ -11,7 +11,7 @@ This project uses LocalStack to simulate AWS services locally for development an
 - AWS CLI
 - Make
 - Terraform
-- OpenJdk >= 17
+- OpenJdk >= 21
 - Maven
 
 ### Using the Makefile
@@ -104,7 +104,7 @@ src/main/java/
 │   │   └── Offer.java            # Domain entity with business rules
 │   ├── service/                  # Domain services
 │   │   └── PricingService.java   # Business logic (e.g., price calculations)
-│   └── port/                    # Output ports (interfaces)
+│   └── port/                     # Output ports (interfaces)
 │       └── OfferRepository.java  # e.g., interface for persistence
 │
 ├── application/                  # Use cases & orchestration
@@ -125,7 +125,10 @@ src/main/java/
     │   │   │   └── OfferResponse.java
     │   │   └── mapper/
     │   │       └── OfferControllerMapper.java  # DTO ↔ Domain mapper
+    │   ├── command/                   # Command handlers (e.g., CQRS commands)
+    │   │   └── CreateOfferCommandHandler.java
     │   └── listener/              # e.g., Kafka/RabbitMQ listeners
+    │       └── OfferEventListener.java
     │
     └── out/                      # Secondary adapters
         ├── repository/

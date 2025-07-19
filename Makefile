@@ -49,7 +49,7 @@ stop:
 # Restart all services
 restart: stop start
 
-#install maven wrapper from cli
+# Install Maven Wrapper from CLI.
 maven:
 	@echo "Installing Maven Wrapper..."
 	@mvn wrapper:wrapper
