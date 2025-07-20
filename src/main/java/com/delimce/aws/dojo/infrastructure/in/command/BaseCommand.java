@@ -7,7 +7,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-
 @ShellComponent
 public abstract class BaseCommand {
 

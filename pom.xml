@@ -11,19 +11,19 @@
 	<groupId>com.delimce.aws</groupId>
 	<artifactId>dojo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>java-aws-dojo</name>
+		<name>java-aws-dojo</name>
 	<description>practice the ancient and mysterious arts of AWS with Java + springboot framework.</description>
 	<url/>
 	<licenses>
 		<license>
-			<name>Creative Commons Zero v1.0 Universal</name>
+						<name>Creative Commons Zero v1.0 Universal</name>
 			<url>https://creativecommons.org/publicdomain/zero/1.0/</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
 	<developers>
 		<developer>
-			<name>Luis De lima</name>
+						<name>Luis De lima</name>
 			<email>delimce@gmail.com</email>
 		</developer>
 	</developers>
@@ -43,10 +43,11 @@
 		</dependency>
 		<!-- Lombok for reducing boilerplate code -->
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>1.18.36</version>
+          <scope>provided</scope>
+       </dependency>
 		
 		<!-- Spring Cloud AWS dependencies -->
 		<dependency>
@@ -139,6 +140,18 @@
 
 	<build>
 		<plugins>
+			<plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-compiler-plugin</artifactId>
+             <configuration>
+                <annotationProcessorPaths>
+                   <path>
+                      <groupId>org.projectlombok</groupId>
+                      <artifactId>lombok</artifactId>
+                   </path>
+                </annotationProcessorPaths>
+             </configuration>
+          </plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
