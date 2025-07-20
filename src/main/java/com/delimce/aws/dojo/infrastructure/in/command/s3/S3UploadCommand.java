@@ -1,10 +1,10 @@
 package com.delimce.aws.dojo.infrastructure.in.command.s3;
 
+import org.springframework.shell.standard.ShellMethod;
 import org.springframework.stereotype.Component;
 
 import com.delimce.aws.dojo.application.service.s3.UploadFileService;
 import com.delimce.aws.dojo.infrastructure.in.command.BaseCommand;
-
 
 @Component
 public class S3UploadCommand extends BaseCommand {
@@ -17,19 +17,10 @@ public class S3UploadCommand extends BaseCommand {
     }
 
     @Override
-    public void run(String... args) {
-        if (args.length < 3) {
-            System.out.println("Usage: s3-upload <bucketName> <fileName> <fileContent>");
-            return;
-        }
-
-        System.out.println("TESTING S3 UPLOAD COMMAND");
-
-        String bucketName = args[0];
-        String fileName = args[1];
-        byte[] fileContent = args[2].getBytes(); // Assuming fileContent is passed as a string for simplicity
-
-        uploadFileService.execute(bucketName, fileName, fileContent);
+    @ShellMethod(key = "s3-upload", value = "Upload a file to S3 bucket")
+    public String execute(String... args) {
+        return "Please provide the necessary options to upload a file.";
     }
 
+    
 }

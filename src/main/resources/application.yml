@@ -3,3 +3,19 @@ spring:
     name: dojo
   profiles:
     active: '@spring.profiles.active@'
+  shell:
+    interactive:
+      enabled: true
+    command:
+      version:
+        enabled: true
+        show-build-name: true
+        show-build-time: true
+        show-build-version: true
+        show-git-branch: false
+        show-git-commit-id: false
+        show-git-short-commit-id: false
+        show-git-commit-time: false
+  main:
+    banner-mode: off  # Disable Spring banner
+    web-application-type: none  # Disable web server for CLI mode

@@ -27,7 +27,6 @@ replay_pid*
 spring-boot-loader.properties
 
 #maven exclude files
-.mvn/
 target/
 
 # vscode exclude files
