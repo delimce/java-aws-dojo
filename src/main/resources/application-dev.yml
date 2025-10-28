@@ -6,7 +6,7 @@ spring:
     activate:
       on-profile: dev
   
-  # Datasource configuration using docker-compose postgres service
+  # Datasource configuration using docker compose postgres service
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/dojodb}
     username: ${DB_USERNAME:dojo}

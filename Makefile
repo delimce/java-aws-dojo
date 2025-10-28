@@ -7,6 +7,7 @@ help:
 	@echo "AWS LocalStack Development Environment"
 	@echo ""
 	@echo "Available commands:"
+	@echo "  make init           - Fast initialization: prepare, start, and setup"
 	@echo "  make prepare        - Create necessary directories for LocalStack"
 	@echo "  make maven          - Install Maven Wrapper"
 	@echo "  make start          - Start all services defined in docker-compose.yml"
@@ -15,7 +16,7 @@ help:
 	@echo "  make setup          - Setup AWS resources in LocalStack"
 	@echo "  make clean          - Remove all containers, volumes, and data directories"
 	@echo "  make status         - Show status of all running containers"
-	@echo "  make health-check   - Check LocalStack health status"
+	@echo "  make health-check   - Check LocalStack and other services health status"
 	@echo "  make logs           - Show logs from all containers"
 	@echo "  make aws-configure  - Configure AWS CLI for LocalStack"
 	@echo "  make terraform-init - Initialize Terraform in the devops directory"
@@ -35,7 +36,7 @@ prepare:
 # Start all services
 start:
 	@echo "Starting containers..."
-	@docker-compose up -d
+	@docker compose up -d
 	@echo "Waiting for services to be ready..."
 	@sleep 5
 	@echo "Services started."
@@ -43,7 +44,7 @@ start:
 # Stop all services
 stop:
 	@echo "Stopping containers..."
-	@docker-compose down
+	@docker compose down
 	@echo "Containers stopped."
 
 # Restart all services
@@ -90,13 +91,13 @@ setup:
 # Remove containers, volumes, and data directories
 clean:
 	@echo "Cleaning up resources..."
-	@docker-compose down -v
+	@docker compose down -v
 	@rm -rf localstack-data localstack-tmp
 	@echo "Cleanup complete."
 
 # Show status of all running containers
 status:
-	@docker-compose ps
+	@docker compose ps
 
 # Check LocalStack health status
 health-check:
@@ -109,19 +110,72 @@ health-check:
 		curl -s http://localhost:4566/_localstack/services/$$service | jq || echo "Could not get $$service status"; \
 	done
 
+	@echo "\nChecking container health for databases..."
+
+	@echo "\nPostgres (postgres-db):"
+	@status=$$(docker inspect --format='{{.State.Health.Status}}' postgres-db 2>/dev/null || true); \
+	if [ -n "$$status" ] && [ "$$status" != "null" ]; then \
+		echo "Docker health: $$status"; \
+	else \
+		if command -v nc >/dev/null 2>&1; then \
+			if nc -z 127.0.0.1 5432 >/dev/null 2>&1; then \
+				echo "postgres reachable on 127.0.0.1:5432 (tcp)"; \
+			else \
+				echo "postgres NOT reachable on 127.0.0.1:5432"; \
+			fi; \
+		elif command -v psql >/dev/null 2>&1; then \
+			PGPASSWORD=dojo123 psql -h 127.0.0.1 -U dojo -p 5432 -c '\\q' >/dev/null 2>&1 && echo "postgres OK" || echo "postgres check failed"; \
+		else \
+			echo "No tcp or psql available to check postgres"; \
+		fi; \
+	fi
+
+	@echo "\nMongoDB (mongo-db):"
+	@status=$$(docker inspect --format='{{.State.Health.Status}}' mongo-db 2>/dev/null || true); \
+	if [ -n "$$status" ] && [ "$$status" != "null" ]; then \
+		echo "Docker health: $$status"; \
+	else \
+		if command -v nc >/dev/null 2>&1; then \
+			if nc -z 127.0.0.1 27017 >/dev/null 2>&1; then \
+				echo "mongo reachable on 127.0.0.1:27017 (tcp)"; \
+			else \
+				echo "mongo NOT reachable on 127.0.0.1:27017"; \
+			fi; \
+		elif command -v mongosh >/dev/null 2>&1; then \
+			mongosh "mongodb://admin:admin123@127.0.0.1:27017/" --eval "db.adminCommand('ping')" >/dev/null 2>&1 && echo "mongo OK" || echo "mongo check failed"; \
+		elif command -v mongo >/dev/null 2>&1; then \
+			mongo --host 127.0.0.1 --port 27017 --username admin --password admin123 --eval "db.adminCommand('ping')" >/dev/null 2>&1 && echo "mongo OK" || echo "mongo check failed"; \
+		else \
+			echo "No tcp or mongo client available to check mongo"; \
+		fi; \
+	fi
+
+	@echo "\nRedis (redis-cache):"
+	@status=$$(docker inspect --format='{{.State.Health.Status}}' redis-cache 2>/dev/null || true); \
+	if [ -n "$$status" ] && [ "$$status" != "null" ]; then \
+		echo "Docker health: $$status"; \
+	else \
+		if command -v nc >/dev/null 2>&1; then \
+			if nc -z 127.0.0.1 6379 >/dev/null 2>&1; then \
+				echo "redis reachable on 127.0.0.1:6379 (tcp)"; \
+			else \
+				echo "redis NOT reachable on 127.0.0.1:6379"; \
+			fi; \
+		elif command -v redis-cli >/dev/null 2>&1; then \
+			redis-cli -h 127.0.0.1 -p 6379 ping >/dev/null 2>&1 && echo "redis OK" || echo "redis check failed"; \
+		else \
+			echo "No tcp or redis-cli available to check redis"; \
+		fi; \
+	fi
+
 # Show logs from all containers
 logs:
-	@docker-compose logs
+	@docker compose logs
 
 # Configure AWS CLI for LocalStack
 aws-configure:
 	@echo "Configuring AWS CLI for LocalStack..."
-	@aws configure set aws_access_key_id test		<!-- Spring Web for REST API -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-	</dependencies>
+	@aws configure set aws_access_key_id test
 	@aws configure set aws_secret_access_key test
 	@aws configure set region eu-west-1
 	@aws configure set output json
