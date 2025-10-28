@@ -8,11 +8,11 @@ This project uses LocalStack to simulate AWS services locally for development an
 ### Prerequisites
 
 - Docker and Docker Compose
-- AWS CLI
 - Make
-- Terraform
 - OpenJdk >= 21
 - Maven
+- AWS CLI
+- Terraform
 
 ### Using the Makefile
 
@@ -32,7 +32,7 @@ make setup               # Setup AWS resources in LocalStack
 make stop                # Stop all containers
 make clean               # Remove containers, volumes, and directories
 make status              # Check container status
-make health-check        # Verify LocalStack health
+make health-check        # Verify LocalStack and other services health
 make terraform-init      # Initialize Terraform configuration
 make terraform-plan      # Preview Terraform changes
 make terraform-apply     # Apply Terraform changes
@@ -60,8 +60,62 @@ When working with the LocalStack environment:
 - Access Key: test
 - Secret Key: test
 
+### PostgreSQL Configuration
+
+When connecting to the PostgreSQL instance:
+- Host: localhost
+- Port: 5432
+- Database: dojodb
+- Username: dojo
+- Password: dojo123
+
+
+### MongoDB Configuration
+
+When connecting to the MongoDB instance:
+- Host: localhost
+- Port: 27017
+- Database: dojo
+- Username: admin
+- Password: admin123
+
+
+### Redis Configuration
+
+When connecting to the Redis instance:
+- Host: localhost
+- Port: 6379
+
 For more details, check the `docker-compose.yml` and `Makefile`.
 ```
+
+### How to set development environment
+
+1. Clone the repository:
+   ```bash
+   git clone git@github.com:delimce/java-aws-dojo.git
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd java-aws-dojo
+   ```
+
+3. Run the initialization command:
+   ```bash
+   make init
+   ```
+4. Your apply terraform scripts or start coding!
+```bash
+   make terraform-init
+   make terraform-plan
+   make terraform-apply
+   ```
+5. check localstack health status 
+```bash
+   curl http://localhost:4566/_localstack/health
+   ```
+
 ## File structure
 
  This structure is lightweight but follows the hexagonal architecture principles and is extensible.

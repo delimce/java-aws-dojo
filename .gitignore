@@ -32,6 +32,11 @@ target/
 
 # vscode exclude files
 .vscode
+.settings/
+
+# zed exclude files
+.zed/
+
 
 
 # localstack exclude files
