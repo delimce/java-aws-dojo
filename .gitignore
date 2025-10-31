@@ -36,8 +36,10 @@ target/
 
 # zed exclude files
 .zed/
-
-
+.factorypath
+.project
+.projectpath
+.classpath
 
 # localstack exclude files
 localstack-data/
